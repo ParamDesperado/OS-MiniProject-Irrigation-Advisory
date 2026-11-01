@@ -50,13 +50,14 @@ pause
 
 title "OUTPUT · plot-wise irrigation advisory"
 run 'sed -n "5,14p" outputs/advisory_report.txt'
-run 'sed -n "/Sample farmer/,\$p" outputs/advisory_report.txt'
+run 'sed -n "/Sample farmer/,\$p" outputs/advisory_report.txt | grep -v "HI:"'
 pause
 
 title "EXPERIMENT 6 · SJF and Round Robin" \
       "Burst times = CPU time of each pipeline process, measured with wait4()"
 run './bin/scheduler -a zero -q 2,5,10 | sed -n "6,15p;/==== SJF/,/^ [0-9]/p"'
 pause
+title "EXPERIMENT 6 · comparison of all scheduling policies"
 run './bin/scheduler -a zero -q 2,5,10 | sed -n "/COMPARISON/,\$p"'
 pause
 
@@ -73,6 +74,8 @@ title "EXPERIMENT 9 · Banker's algorithm" \
       "Villages share pumps, power slots, canal valves and fertigation units"
 run './bin/banker | sed -n "4,21p"'
 pause
+title "EXPERIMENT 9 · handling resource requests" \
+      "GRANTED if the state stays safe · DENIED if it could lead to deadlock"
 run './bin/banker | grep -E "^REQUEST|^RELEASE|=>|ERROR|WAIT"'
 pause
 
