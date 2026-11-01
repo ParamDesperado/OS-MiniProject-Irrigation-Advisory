@@ -1,0 +1,16 @@
+EXPERIMENT 7 - Producer-Consumer on the sensor buffer (KJS-AGR-01)
+mode=UNSAFE (no table mutex)  producers=5 (village gateways)  consumers=3 (analytics workers)  buffer=8 slots
+readings to stream: 100277
+
+check                                  expected       actual result
+readings produced = consumed             100277       100277 OK
+valid readings counted                    99258        36898 MISMATCH  <-- race condition
+rejected readings counted                  1019         1009 MISMATCH  <-- race condition
+per-plot table entries                    99258        69698 MISMATCH  <-- race condition
+moisture sum (x100)                   253335969    177674255 MISMATCH  <-- race condition
+
+buffer FULL events (producer blocked) : 66342
+buffer EMPTY events (consumer blocked): 32
+elapsed 775.3 ms, throughput 129339 readings/s
+
+RESULT: 62370 updates LOST - unsynchronised read-modify-write caused a RACE CONDITION.

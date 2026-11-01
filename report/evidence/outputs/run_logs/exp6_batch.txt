@@ -1,0 +1,132 @@
+EXPERIMENT 6 - CPU scheduling of irrigation-advisory tasks (KJS-AGR-01)
+Source of burst times : MEASURED (wait4 rusage CPU time from Exp-4 pipeline)
+Input file            : logs/stage_times.csv
+Arrival mode          : zero (batch cycle)   |   1 tick = 1.00 ms
+
+PID  Task                      arrival    CPU burst       AT       BT
+P1   acquire_sensors            0.00ms     34.486ms        0       34
+P2   acquire_weather            0.00ms      1.084ms        0        1
+P3   predict_Sameerwadi         0.00ms    175.580ms        0      176
+P4   predict_Mudhol             0.00ms    140.912ms        0      141
+P5   predict_Jamkhandi          0.00ms    121.888ms        0      122
+P6   predict_Rabkavi            0.00ms     92.413ms        0       92
+P7   predict_Terdal             0.00ms     76.032ms        0       76
+P8   advise_report              0.00ms      7.973ms        0        8
+
+==================== FCFS ====================
+PID  Task                       AT     BT     CT    TAT     WT     RT
+P1   acquire_sensors             0     34     34     34      0      0
+P2   acquire_weather             0      1     35     35     34     34
+P3   predict_Sameerwadi          0    176    211    211     35     35
+P4   predict_Mudhol              0    141    352    352    211    211
+P5   predict_Jamkhandi           0    122    474    474    352    352
+P6   predict_Rabkavi             0     92    566    566    474    474
+P7   predict_Terdal              0     76    642    642    566    566
+P8   advise_report               0      8    650    650    642    642
+Average WT = 289.25 ticks (289.25 ms)   Average TAT = 370.50 ticks (370.50 ms)   Avg RT = 289.25 ticks
+Context switches = 7   Throughput = 12.3 tasks/s
+Gantt chart (1 tick = 1.00 ms):
+ |P1   |P2   |P3   |P4   |P5   |P6   |P7   |P8   |
+ 0     34    35    211   352   474   566   642   650
+
+==================== SJF ====================
+PID  Task                       AT     BT     CT    TAT     WT     RT
+P1   acquire_sensors             0     34     43     43      9      9
+P2   acquire_weather             0      1      1      1      0      0
+P3   predict_Sameerwadi          0    176    650    650    474    474
+P4   predict_Mudhol              0    141    474    474    333    333
+P5   predict_Jamkhandi           0    122    333    333    211    211
+P6   predict_Rabkavi             0     92    211    211    119    119
+P7   predict_Terdal              0     76    119    119     43     43
+P8   advise_report               0      8      9      9      1      1
+Average WT = 148.75 ticks (148.75 ms)   Average TAT = 230.00 ticks (230.00 ms)   Avg RT = 148.75 ticks
+Context switches = 7   Throughput = 12.3 tasks/s
+Gantt chart (1 tick = 1.00 ms):
+ |P2   |P8   |P1   |P7   |P6   |P5   |P4   |P3   |
+ 0     1     9     43    119   211   333   474   650
+
+==================== SRTF ====================
+PID  Task                       AT     BT     CT    TAT     WT     RT
+P1   acquire_sensors             0     34     43     43      9      9
+P2   acquire_weather             0      1      1      1      0      0
+P3   predict_Sameerwadi          0    176    650    650    474    474
+P4   predict_Mudhol              0    141    474    474    333    333
+P5   predict_Jamkhandi           0    122    333    333    211    211
+P6   predict_Rabkavi             0     92    211    211    119    119
+P7   predict_Terdal              0     76    119    119     43     43
+P8   advise_report               0      8      9      9      1      1
+Average WT = 148.75 ticks (148.75 ms)   Average TAT = 230.00 ticks (230.00 ms)   Avg RT = 148.75 ticks
+Context switches = 7   Throughput = 12.3 tasks/s
+Gantt chart (1 tick = 1.00 ms):
+ |P2   |P8   |P1   |P7   |P6   |P5   |P4   |P3   |
+ 0     1     9     43    119   211   333   474   650
+
+==================== RR_q2 ====================
+PID  Task                       AT     BT     CT    TAT     WT     RT
+P1   acquire_sensors             0     34    203    203    169      0
+P2   acquire_weather             0      1      3      3      2      2
+P3   predict_Sameerwadi          0    176    650    650    474      3
+P4   predict_Mudhol              0    141    616    616    475      5
+P5   predict_Jamkhandi           0    122    577    577    455      7
+P6   predict_Rabkavi             0     92    487    487    395      9
+P7   predict_Terdal              0     76    423    423    347     11
+P8   advise_report               0      8     57     57     49     13
+Average WT = 295.75 ticks (295.75 ms)   Average TAT = 377.00 ticks (377.00 ms)   Avg RT = 6.25 ticks
+Context switches = 309   Throughput = 12.3 tasks/s
+Gantt chart (1 tick = 1.00 ms):
+ |P1   |P2   |P3   |P4   |P5   |P6   |P7   |P8   |P1   |P3   |P4   |P5   |
+ 0     2     3     5     7     9     11    13    15    17    19    21    23
+   ... 286 more slices (full chart in gantt_RR_q2.csv) ...
+ |P4   |P3   |P4   |P3   |P4   |P3   |P4   |P3   |P4   |P3   |P4   |P3   |
+ 595   597   599   601   603   605   607   609   611   613   615   616   650
+
+==================== RR_q5 ====================
+PID  Task                       AT     BT     CT    TAT     WT     RT
+P1   acquire_sensors             0     34    193    193    159      0
+P2   acquire_weather             0      1      6      6      5      5
+P3   predict_Sameerwadi          0    176    650    650    474      6
+P4   predict_Mudhol              0    141    619    619    478     11
+P5   predict_Jamkhandi           0    122    583    583    461     16
+P6   predict_Rabkavi             0     92    496    496    404     21
+P7   predict_Terdal              0     76    439    439    363     26
+P8   advise_report               0      8     69     69     61     31
+Average WT = 300.62 ticks (300.62 ms)   Average TAT = 381.88 ticks (381.88 ms)   Avg RT = 14.50 ticks
+Context switches = 128   Throughput = 12.3 tasks/s
+Gantt chart (1 tick = 1.00 ms):
+ |P1   |P2   |P3   |P4   |P5   |P6   |P7   |P8   |P1   |P3   |P4   |P5   |
+ 0     5     6     11    16    21    26    31    36    41    46    51    56
+   ... 105 more slices (full chart in gantt_RR_q5.csv) ...
+ |P3   |P4   |P5   |P3   |P4   |P3   |P4   |P3   |P4   |P3   |P4   |P3   |
+ 571   576   581   583   588   593   598   603   608   613   618   619   650
+
+==================== RR_q10 ====================
+PID  Task                       AT     BT     CT    TAT     WT     RT
+P1   acquire_sensors             0     34    193    193    159      0
+P2   acquire_weather             0      1     11     11     10     10
+P3   predict_Sameerwadi          0    176    650    650    474     11
+P4   predict_Mudhol              0    141    624    624    483     21
+P5   predict_Jamkhandi           0    122    593    593    471     31
+P6   predict_Rabkavi             0     92    511    511    419     41
+P7   predict_Terdal              0     76    439    439    363     51
+P8   advise_report               0      8     69     69     61     61
+Average WT = 305.00 ticks (305.00 ms)   Average TAT = 386.25 ticks (386.25 ms)   Avg RT = 28.25 ticks
+Context switches = 67   Throughput = 12.3 tasks/s
+Gantt chart (1 tick = 1.00 ms):
+ |P1   |P2   |P3   |P4   |P5   |P6   |P7   |P8   |P1   |P3   |P4   |P5   |
+ 0     10    11    21    31    41    51    61    69    79    89    99    109
+   ... 44 more slices (full chart in gantt_RR_q10.csv) ...
+ |P5   |P3   |P4   |P5   |P3   |P4   |P5   |P3   |P4   |P3   |P4   |P3   |
+ 531   541   551   561   571   581   591   593   603   613   623   624   650
+
+==================== COMPARISON ====================
+Algorithm    Avg WT(ms)  Avg TAT(ms)   Avg RT(ms)  Switches    Tasks/s
+FCFS             289.25       370.50       289.25         7       12.3
+SJF              148.75       230.00       148.75         7       12.3
+SRTF             148.75       230.00       148.75         7       12.3
+RR_q2            295.75       377.00         6.25       309       12.3
+RR_q5            300.62       381.88        14.50       128       12.3
+RR_q10           305.00       386.25        28.25        67       12.3
+
+Lowest average waiting time : SJF
+Lowest average response time: RR_q2
+Gantt segments written to outputs/scheduling/gantt_<alg>.csv

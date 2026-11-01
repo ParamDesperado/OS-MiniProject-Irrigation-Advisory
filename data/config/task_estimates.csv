@@ -1,0 +1,13 @@
+name,arrival_ms,burst_ms
+# DOCUMENTED ESTIMATES - used by bin/scheduler only when logs/stage_times.csv
+# (measured by bin/pipeline) is missing. Values are estimates for a
+# Raspberry Pi 4 field gateway: CPU burst = measured x86 CPU time x 3,
+# rounded; arrival = order in which the advisory cycle releases tasks.
+acquire_sensors,0,90
+acquire_weather,0,3
+predict_Sameerwadi,2,60
+predict_Mudhol,4,45
+predict_Jamkhandi,6,40
+predict_Rabkavi,8,30
+predict_Terdal,10,24
+advise_report,12,9

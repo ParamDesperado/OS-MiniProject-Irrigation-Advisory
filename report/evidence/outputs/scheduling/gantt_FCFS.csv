@@ -1,0 +1,10 @@
+pid,task,start_tick,end_tick
+0,idle,0,3
+P1,acquire_sensors,3,37
+P2,acquire_weather,37,38
+P3,predict_Sameerwadi,38,214
+P4,predict_Mudhol,214,355
+P5,predict_Jamkhandi,355,477
+P6,predict_Rabkavi,477,569
+P7,predict_Terdal,569,645
+P8,advise_report,645,653

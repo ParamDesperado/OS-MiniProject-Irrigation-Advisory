@@ -1,0 +1,8 @@
+/bin/
+/backups/
+/data/processed/
+/outputs/
+/logs/
+__pycache__/
+*.o
+/_private/

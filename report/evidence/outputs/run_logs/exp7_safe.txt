@@ -1,0 +1,16 @@
+EXPERIMENT 7 - Producer-Consumer on the sensor buffer (KJS-AGR-01)
+mode=SAFE (semaphores + mutex)  producers=5 (village gateways)  consumers=3 (analytics workers)  buffer=8 slots
+readings to stream: 100277
+
+check                                  expected       actual result
+readings produced = consumed             100277       100277 OK
+valid readings counted                    99258        99258 OK
+rejected readings counted                  1019         1019 OK
+per-plot table entries                    99258        99258 OK
+moisture sum (x100)                   253335969    253335969 OK
+
+buffer FULL events (producer blocked) : 20527
+buffer EMPTY events (consumer blocked): 3469
+elapsed 185.1 ms, throughput 541648 readings/s
+
+RESULT: shared plot table is CONSISTENT - no lost updates, no race condition.

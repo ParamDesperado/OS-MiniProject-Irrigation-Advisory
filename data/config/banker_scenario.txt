@@ -1,0 +1,35 @@
+# Banker's algorithm scenario - Experiment 9 (KJS-AGR-01)
+#
+# Resources shared by the 5 villages of the command area over the next 48 h:
+#   Pumps     - shared mobile pump sets owned by the cane department
+#   Power     - 3-phase feeder slots (1 slot = 15 kW during the power window)
+#   Valves    - canal outlet gates
+#   FertUnits - drip fertigation units
+# Max claim of each village = its 48-hour demand computed by the advisory
+# stage of the pipeline (outputs/pump_demand.csv columns pumps, power_blocks,
+# valves, fertigation_units). Values copied here so the demo is reproducible.
+resources Pumps Power Valves FertUnits
+total 14 6 10 6
+
+#   name        max (P W V F)   current allocation
+job Sameerwadi  max 8 3 5 4     alloc 3 1 2 2
+job Mudhol      max 7 3 5 3     alloc 2 1 2 1
+job Jamkhandi   max 5 2 3 2     alloc 2 0 1 1
+job Rabkavi     max 6 3 4 3     alloc 3 1 1 1
+job Terdal      max 4 2 3 1     alloc 1 1 1 0
+
+# 1. small request, state stays safe                        -> GRANTED
+request Terdal 1 1 0 0
+# 2. Sameerwadi grabs the last pumps; nobody could finish   -> DENIED (unsafe)
+request Sameerwadi 2 1 0 0
+# 3. Terdal asks for its full remaining claim                -> GRANTED (it can finish)
+request Terdal 2 0 2 1
+# 4. more than the declared maximum claim                    -> ERROR
+request Mudhol 6 0 0 0
+# 5. no pumps left                                           -> WAIT
+request Jamkhandi 1 0 0 0
+# 6. Terdal finishes irrigating and releases its resources
+release Terdal
+# 7. Jamkhandi retries                                       -> GRANTED
+request Jamkhandi 1 0 0 0
+check

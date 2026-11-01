@@ -1,0 +1,12 @@
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+Linux 6.8.0-1064-azure
+gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+mkdir -p bin
+gcc -Wall -Wextra -Wno-format-truncation -O2 -std=c11 -Iinclude -c src/common.c -o bin/common.o
+gcc -Wall -Wextra -Wno-format-truncation -O2 -std=c11 -Iinclude src/pipeline.c bin/common.o -o bin/pipeline -lm
+gcc -Wall -Wextra -Wno-format-truncation -O2 -std=c11 -Iinclude src/acquire.c bin/common.o -o bin/acquire -lm
+gcc -Wall -Wextra -Wno-format-truncation -O2 -std=c11 -Iinclude src/predict.c bin/common.o -o bin/predict -lm
+gcc -Wall -Wextra -Wno-format-truncation -O2 -std=c11 -Iinclude src/advise.c bin/common.o -o bin/advise -lm
+gcc -Wall -Wextra -Wno-format-truncation -O2 -std=c11 -Iinclude src/scheduler.c bin/common.o -o bin/scheduler -lm
+gcc -Wall -Wextra -Wno-format-truncation -O2 -std=c11 -Iinclude -pthread src/sensor_sync.c bin/common.o -o bin/sensor_sync -lm
+gcc -Wall -Wextra -Wno-format-truncation -O2 -std=c11 -Iinclude src/banker.c -o bin/banker

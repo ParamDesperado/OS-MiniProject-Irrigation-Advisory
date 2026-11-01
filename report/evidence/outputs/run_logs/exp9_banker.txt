@@ -1,0 +1,72 @@
+EXPERIMENT 9 - Banker's algorithm for irrigation resources (KJS-AGR-01)
+scenario: data/config/banker_scenario.txt
+
+Resources: Pumps, Power, Valves, FertUnits
+Total    : [14 6 10 6]
+
+Job          Allocation     Max            Need          
+Sameerwadi   [3 1 2 2]     [8 3 5 4]     [5 2 3 2]
+Mudhol       [2 1 2 1]     [7 3 5 3]     [5 2 3 2]
+Jamkhandi    [2 0 1 1]     [5 2 3 2]     [3 2 2 1]
+Rabkavi      [3 1 1 1]     [6 3 4 3]     [3 2 3 2]
+Terdal       [1 1 1 0]     [4 2 3 1]     [3 1 2 1]
+Available    [3 2 3 1]
+
+INITIAL STATE - safety algorithm:
+  Jamkhandi    Need [3 2 2 1] <= Work [3 2 3 1]  -> finishes, Work = [5 2 4 2]
+  Rabkavi      Need [3 2 3 2] <= Work [5 2 4 2]  -> finishes, Work = [8 3 5 3]
+  Terdal       Need [3 1 2 1] <= Work [8 3 5 3]  -> finishes, Work = [9 4 6 3]
+  Sameerwadi   Need [5 2 3 2] <= Work [9 4 6 3]  -> finishes, Work = [12 5 8 5]
+  Mudhol       Need [5 2 3 2] <= Work [12 5 8 5]  -> finishes, Work = [14 6 10 6]
+  SAFE. Safe sequence: < Jamkhandi, Rabkavi, Terdal, Sameerwadi, Mudhol >
+
+REQUEST Terdal [1 1 0 0]
+  pretend allocation, run safety algorithm:
+  Terdal       Need [2 0 2 1] <= Work [2 1 3 1]  -> finishes, Work = [4 3 4 1]
+  Jamkhandi    Need [3 2 2 1] <= Work [4 3 4 1]  -> finishes, Work = [6 3 5 2]
+  Rabkavi      Need [3 2 3 2] <= Work [6 3 5 2]  -> finishes, Work = [9 4 6 3]
+  Sameerwadi   Need [5 2 3 2] <= Work [9 4 6 3]  -> finishes, Work = [12 5 8 5]
+  Mudhol       Need [5 2 3 2] <= Work [12 5 8 5]  -> finishes, Work = [14 6 10 6]
+  SAFE. Safe sequence: < Terdal, Jamkhandi, Rabkavi, Sameerwadi, Mudhol >
+  => GRANTED. Available now [2 1 3 1]
+
+REQUEST Sameerwadi [2 1 0 0]
+  pretend allocation, run safety algorithm:
+  UNSAFE. Jobs that cannot be guaranteed to finish: Sameerwadi Mudhol Jamkhandi Rabkavi Terdal 
+  => DENIED: granting would lead to an UNSAFE state (possible deadlock). Rolled back.
+
+REQUEST Terdal [2 0 2 1]
+  pretend allocation, run safety algorithm:
+  Terdal       Need [0 0 0 0] <= Work [0 1 1 0]  -> finishes, Work = [4 3 4 1]
+  Jamkhandi    Need [3 2 2 1] <= Work [4 3 4 1]  -> finishes, Work = [6 3 5 2]
+  Rabkavi      Need [3 2 3 2] <= Work [6 3 5 2]  -> finishes, Work = [9 4 6 3]
+  Sameerwadi   Need [5 2 3 2] <= Work [9 4 6 3]  -> finishes, Work = [12 5 8 5]
+  Mudhol       Need [5 2 3 2] <= Work [12 5 8 5]  -> finishes, Work = [14 6 10 6]
+  SAFE. Safe sequence: < Terdal, Jamkhandi, Rabkavi, Sameerwadi, Mudhol >
+  => GRANTED. Available now [0 1 1 0]
+
+REQUEST Mudhol [6 0 0 0]
+  ERROR: request exceeds declared maximum claim for Pumps (need 5) -> REJECTED
+
+REQUEST Jamkhandi [1 0 0 0]
+  only 0 Pumps available -> job must WAIT (not granted)
+
+RELEASE Terdal: irrigation complete, returns [4 2 3 1]  -> Available [4 3 4 1]
+
+REQUEST Jamkhandi [1 0 0 0]
+  pretend allocation, run safety algorithm:
+  Jamkhandi    Need [2 2 2 1] <= Work [3 3 4 1]  -> finishes, Work = [6 3 5 2]
+  Rabkavi      Need [3 2 3 2] <= Work [6 3 5 2]  -> finishes, Work = [9 4 6 3]
+  Sameerwadi   Need [5 2 3 2] <= Work [9 4 6 3]  -> finishes, Work = [12 5 8 5]
+  Mudhol       Need [5 2 3 2] <= Work [12 5 8 5]  -> finishes, Work = [14 6 10 6]
+  SAFE. Safe sequence: < Jamkhandi, Rabkavi, Sameerwadi, Mudhol >
+  => GRANTED. Available now [3 3 4 1]
+
+FINAL STATE:
+Job          Allocation     Max            Need          
+Sameerwadi   [3 1 2 2]     [8 3 5 4]     [5 2 3 2]
+Mudhol       [2 1 2 1]     [7 3 5 3]     [5 2 3 2]
+Jamkhandi    [3 0 1 1]     [5 2 3 2]     [2 2 2 1]
+Rabkavi      [3 1 1 1]     [6 3 4 3]     [3 2 3 2]
+Terdal       [0 0 0 0]     [0 0 0 0]     [0 0 0 0]
+Available    [3 3 4 1]

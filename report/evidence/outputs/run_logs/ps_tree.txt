@@ -1,0 +1,7 @@
+    PID    PPID STAT COMMAND
+   4627    4625 S<   ./bin/pipeline -o /tmp/o -l /tmp/l
+   4632    4627 R<   bin/predict Sameerwadi data/raw/plots.csv data/processed/se
+   4633    4627 R<   bin/predict Mudhol data/raw/plots.csv data/processed/sensor
+   4634    4627 R<   bin/predict Jamkhandi data/raw/plots.csv data/processed/sen
+   4635    4627 R<   bin/predict Rabkavi data/raw/plots.csv data/processed/senso
+   4636    4627 R<   bin/predict Terdal data/raw/plots.csv data/processed/sensor

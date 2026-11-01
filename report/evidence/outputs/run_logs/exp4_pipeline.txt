@@ -1,0 +1,35 @@
+=== Irrigation advisory pipeline (KJS-AGR-01)  parent pid=4603 ===
+plots.csv: 600 plots in 5 villages
+
+[Stage 1] data acquisition
+  fork -> pid 4609   exec acquire_sensors              (parent pid 4603)
+  fork -> pid 4610   exec acquire_weather              (parent pid 4603)
+[acquire   pid=4610] weather: 5 villages aggregated, 0 invalid rows rejected
+  wait <- pid 4610   acquire_weather              exit=0  wall=   1.28 ms  cpu=   1.08 ms
+[acquire   pid=4609] sensors: 100800 rows read, 99258 valid, rejected: 524 missing, 495 out-of-range, 523 malformed -> 600 plots
+  wait <- pid 4609   acquire_sensors              exit=0  wall=  35.85 ms  cpu=  34.49 ms
+
+[Stage 2] AI prediction - 5 village processes in parallel
+  fork -> pid 4611   exec predict_Sameerwadi           (parent pid 4603)
+  fork -> pid 4612   exec predict_Mudhol               (parent pid 4603)
+  fork -> pid 4613   exec predict_Jamkhandi            (parent pid 4603)
+  fork -> pid 4614   exec predict_Rabkavi              (parent pid 4603)
+  fork -> pid 4615   exec predict_Terdal               (parent pid 4603)
+[predict   pid=4613] Jamkhandi: 120 plots predicted, 0 sensor-offline, 4000 MC draws/plot, 166.1 ms (ML model)
+  wait <- pid 4613   predict_Jamkhandi            exit=0  wall= 170.34 ms  cpu= 121.89 ms
+[predict   pid=4615] Terdal: 72 plots predicted, 0 sensor-offline, 4000 MC draws/plot, 185.2 ms (ML model)
+  wait <- pid 4615   predict_Terdal               exit=0  wall= 192.26 ms  cpu=  76.03 ms
+[predict   pid=4614] Rabkavi: 90 plots predicted, 0 sensor-offline, 4000 MC draws/plot, 220.4 ms (ML model)
+  wait <- pid 4614   predict_Rabkavi              exit=0  wall= 229.00 ms  cpu=  92.41 ms
+[predict   pid=4612] Mudhol: 138 plots predicted, 0 sensor-offline, 4000 MC draws/plot, 289.4 ms (ML model)
+  wait <- pid 4612   predict_Mudhol               exit=0  wall= 295.81 ms  cpu= 140.91 ms
+[predict   pid=4611] Sameerwadi: 180 plots predicted, 0 sensor-offline, 4000 MC draws/plot, 320.8 ms (ML model)
+  wait <- pid 4611   predict_Sameerwadi           exit=0  wall= 329.01 ms  cpu= 175.58 ms
+
+[Stage 3] advisory and report generation
+  fork -> pid 4617   exec advise_report                (parent pid 4603)
+[advise    pid=4617] 600 advisories: 244 today, 95 tomorrow, 230 within 3 days, 31 none, 0 sensor-offline
+  wait <- pid 4617   advise_report                exit=0  wall=   8.15 ms  cpu=   7.97 ms
+
+PIPELINE COMPLETE: 8 child processes, total wall 375.90 ms, total child CPU 650.37 ms
+outputs: outputs/advisories.csv, outputs/advisory_report.txt, outputs/pump_demand.csv; timings: logs/stage_times.csv

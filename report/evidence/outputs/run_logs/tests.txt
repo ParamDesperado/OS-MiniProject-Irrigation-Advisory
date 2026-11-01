@@ -1,0 +1,22 @@
+== Exp 4: pipeline (fork/exec/wait, file system calls) ==
+  PASS  normal run on synthetic data                                   (exit 0)
+  PASS  missing sensor file -> stage 1 fails, workflow aborts          (exit 1)
+  PASS  corrupt sensor file -> acquire exits 3                         (exit 3)
+  PASS  missing model -> rule-based fallback warning                  
+  PASS  unknown village -> predict exits 3                             (exit 3)
+== Exp 6: scheduler ==
+  PASS  measured bursts, quanta 2,5,10                                 (exit 0)
+  PASS  missing stage log -> falls back to documented estimates       
+  PASS  invalid quantum 0 rejected                                     (exit 1)
+== Exp 7: producer-consumer ==
+  PASS  safe mode, buffer 8 -> consistent table                        (exit 0)
+  PASS  safe mode, buffer 1 (always full/empty) -> consistent          (exit 0)
+  PASS  unsafe mode -> race detected (exit 4)                          (exit 4)
+  PASS  invalid buffer size 0 rejected                                 (exit 1)
+== Exp 9: Banker's algorithm ==
+  PASS  initial state is safe                                         
+  PASS  unsafe request is denied                                      
+  PASS  request above max claim is rejected                           
+  PASS  missing scenario file                                          (exit 2)
+
+Tests passed: 16   failed: 0

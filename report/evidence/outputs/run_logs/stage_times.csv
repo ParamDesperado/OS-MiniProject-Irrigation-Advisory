@@ -1,0 +1,9 @@
+task,stage,pid,start_ms,end_ms,wall_ms,cpu_ms,exit_code
+acquire_sensors,1,4609,2.543,38.392,35.849,34.486,0
+acquire_weather,1,4610,2.704,3.984,1.280,1.084,0
+predict_Sameerwadi,2,4611,38.481,367.489,329.008,175.580,0
+predict_Mudhol,2,4612,38.629,334.436,295.807,140.912,0
+predict_Jamkhandi,2,4613,38.794,209.137,170.343,121.888,0
+predict_Rabkavi,2,4614,38.972,267.975,229.003,92.413,0
+predict_Terdal,2,4615,39.179,231.442,192.263,76.032,0
+advise_report,3,4617,367.552,375.707,8.155,7.973,0

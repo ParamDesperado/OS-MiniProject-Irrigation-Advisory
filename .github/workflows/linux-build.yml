@@ -1,0 +1,23 @@
+name: Linux build and test
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: make all
+      - name: Run full demo
+        run: bash scripts/run_all.sh
+      - name: Tests (normal + failure scenarios)
+        run: bash tests/run_tests.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: run-logs
+          path: |
+            outputs/
+            logs/

@@ -1,0 +1,49 @@
+=====================================================================================
+ SUGARCANE IRRIGATION ADVISORY REPORT  (KJS-AGR-01 prototype, SYNTHETIC DATA)
+ Decision support only - final irrigation decision rests with farmer / field officer
+=====================================================================================
+
+Village     Plots  Today   Tmrw  3-day   None Offline     AI(m3)   Rule(m3)
+Sameerwadi    180     68     27     81      4       0     290090     464063
+Mudhol        138     57     24     56      1       0     222203     348282
+Jamkhandi     120     34     16     49     21       0     116297     167380
+Rabkavi        90     51     18     20      1       0     186223     280636
+Terdal         72     34     10     24      4       0     137548     195715
+TOTAL         600    244     95    230     31       0     952361    1456076
+
+3-day water requirement, AI advisory vs rule-based schedule: 952361 m3 vs 1456076 m3 (34.6% less)
+
+Top 15 most urgent plots
+Plot   Village     Method  Stress   NetNeed  GrossApp  PumpHrs Action                
+P0488  Rabkavi     furrow    0.99  126.5 mm  125.0 mm     40.8 IRRIGATE_TODAY        
+P0059  Sameerwadi  furrow    0.99  129.0 mm  125.0 mm     99.3 IRRIGATE_TODAY        
+P0122  Sameerwadi  furrow    0.99  133.0 mm  125.0 mm     39.3 IRRIGATE_TODAY        
+P0249  Mudhol      furrow    0.99  110.5 mm  125.0 mm     52.0 IRRIGATE_TODAY        
+P0157  Sameerwadi  furrow    0.99  120.0 mm  125.0 mm     41.3 IRRIGATE_TODAY        
+P0218  Mudhol      furrow    0.99  138.4 mm  125.0 mm     48.5 IRRIGATE_TODAY        
+P0503  Rabkavi     furrow    0.99  124.5 mm  125.0 mm    114.5 IRRIGATE_TODAY        
+P0178  Sameerwadi  furrow    0.98  123.0 mm  125.0 mm     30.5 IRRIGATE_TODAY        
+P0220  Mudhol      drip      0.98  125.0 mm   44.4 mm      6.7 IRRIGATE_TODAY        
+P0134  Sameerwadi  furrow    0.98  124.2 mm  125.0 mm     67.5 IRRIGATE_TODAY        
+P0212  Mudhol      furrow    0.98  123.5 mm  125.0 mm     41.3 IRRIGATE_TODAY        
+P0453  Rabkavi     drip      0.98  120.2 mm   44.4 mm     14.2 IRRIGATE_TODAY        
+P0514  Rabkavi     drip      0.98  120.0 mm   44.4 mm     12.7 IRRIGATE_TODAY        
+P0114  Sameerwadi  furrow    0.98  124.1 mm  125.0 mm     70.0 IRRIGATE_TODAY        
+P0185  Mudhol      furrow    0.98  121.8 mm  125.0 mm     81.1 IRRIGATE_TODAY        
+
+Sample farmer messages (one per action type)
+  [IRRIGATE_TODAY] P0488 (Rabkavi)
+    EN: High water-stress risk. Start irrigation today: run pump 40.8 h (5.1 days of power supply), 125 mm.
+    HI: पानी की कमी का खतरा अधिक है। आज सिंचाई शुरू करें: पंप 40.8 घंटे चलाएँ।
+  [IRRIGATE_TOMORROW] P0171 (Sameerwadi)
+    EN: Irrigate tomorrow morning: run pump 4.0 h (0.5 days of power supply), 44 mm.
+    HI: कल सुबह सिंचाई करें: पंप 4.0 घंटे चलाएँ।
+  [IRRIGATE_WITHIN_3_DAYS] P0408 (Jamkhandi)
+    EN: Irrigate within the next 3 days: run pump 32.2 h, 94 mm.
+    HI: अगले 3 दिनों में सिंचाई करें: पंप 32.2 घंटे चलाएँ।
+  [NO_IRRIGATION] P0024 (Sameerwadi)
+    EN: Soil moisture is adequate. No irrigation needed for the next 3 days.
+    HI: मिट्टी में पर्याप्त नमी है। अगले 3 दिन सिंचाई की आवश्यकता नहीं है।
+  [SKIP_RAIN_EXPECTED] P0354 (Jamkhandi)
+    EN: Rainfall of about 33 mm is expected; irrigation is not required.
+    HI: लगभग 33 मिमी बारिश की संभावना है; सिंचाई की आवश्यकता नहीं है।
