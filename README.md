@@ -111,7 +111,7 @@ Run each experiment separately:
 ./bin/banker                            # Exp 9
 ```
 
-Requirements: `gcc`, `make`, `python3` (standard library only). Optional: `matplotlib` for the report charts.
+Requirements (see [`requirements.txt`](requirements.txt)): `gcc`, `make` and `python3` (standard library only), installed with `sudo apt install -y build-essential python3`. `matplotlib` is optional and only redraws the report charts.
 
 ## 5. Repository structure
 

@@ -1,0 +1,7 @@
+# System packages (Ubuntu / Debian):  sudo apt install -y build-essential python3
+#   gcc, make, glibc (pthreads, POSIX semaphores, libm) - required to build the C programs
+#   python3 (standard library only) - required for data generation and model training
+#
+# Python packages - OPTIONAL, only needed to redraw the report charts and screenshots
+matplotlib>=3.5
+pillow>=9.0
